@@ -1,0 +1,10 @@
+{
+  "source": "/Users/caozhibo/Creative/Portfolio/portfolio.czb.deploy",
+  "files": {
+    "index.html": "e17a67725f48fba26e17cd3926127d0dd16a745bcf4eb33454afe743db4180a7",
+    "styles.css": "eb91491e04649fbd62cd7c46d634a60911a86cd3b12dd62f4c2f9ac1b6c68975",
+    "projects/dessin.html": "94b8cc9d5e981edcd053fbaabc8dcb097c102c5f8805044dcb7ee94a9be74b80",
+    "favicon.svg": "08d50d6b077d35a8e1d2ff029a3e13b5c18ed02da0000e37c6f2db43027f31b8",
+    "home-preview.js": "a884cb1a31cb1c8b372c4a88a7702ec3f98a2d46bdfab9d9088d31b6d1cb6038"
+  }
+}
