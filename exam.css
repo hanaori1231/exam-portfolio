@@ -73,3 +73,8 @@ body.preview-active { overflow: hidden; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
 }
+
+/* Language links inherit the existing nav typography and hover interaction. */
+.language-switch { white-space: nowrap; }
+.language-switch a { opacity: .55; }
+.language-switch a[aria-current="page"] { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }

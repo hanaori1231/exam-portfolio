@@ -50,3 +50,14 @@ Support 沿用首页 About 的滚动模糊与位移动画。补充键盘焦点�
 所有作品列表留空；没有复制、生成或推测任何作品，没有虚构经历。
 等待用户第一轮审核以及真实作品 / X URL。
 未添加部署配置、CNAME、GitHub Actions；未 push，未部署。
+
+## 语言版本（2026-10-06）
+
+- `/` 固定进入 `/ch/`，不检测浏览器语言；JavaScript 跳转保留 query / hash。
+- `/ch/index.html` 与 `/jp/index.html` 仅分别维护页面文案。
+- 两版共用根目录 `styles.css`、`exam.css`、`works.js`、`language.js`、`exam.js`、`favicon.svg` 与 `assets/`。
+- 图片路径仍填写 `assets/...`，渲染时统一按站点根目录解析，避免语言目录影响路径。
+- `works.js` 的作品列表与 X_POST_URL 唯一；可翻译字段支持 `{ ch: "...", jp: "..." }`，图片/数量/顺序共用。
+- `language.js` 的 LANGUAGE_PAGES 记录存在的语言页面。以后新增 detail HTML 时登记对应路径；缺少对应语言时回到该语言首页，不探测不存在的页面、不制造 404。
+- 首页切换保留 hash；无 hash 时使用当前浏览区域。普通链接，无下拉菜单。
+- hreflang 使用计划中的最终域名，仅为 HTML metadata，不配置域名或部署。

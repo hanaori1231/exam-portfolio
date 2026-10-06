@@ -12,8 +12,8 @@ const text = (tag, value, className) => {
 };
 function openPreview(button, work) {
   lastTrigger = button;
-  previewImage.src = work.image;
-  previewImage.alt = work.alt || work.title || '作品 / 作品';
+  previewImage.src = workImageURL(work.image);
+  previewImage.alt = work.alt || work.title || UI_TEXT.artwork;
   previewCaption.textContent = [work.title, work.category, work.period, work.year, work.material, work.duration].filter(Boolean).join('\n');
   preview.inert = false;
   preview.setAttribute('aria-hidden', 'false');
@@ -58,24 +58,26 @@ for (const grid of document.querySelectorAll('[data-works]')) {
       figure.className = 'development-work';
       const slot = text('div', '', 'development-slot');
       slot.append(text('span', label), text('strong', String(index).padStart(2, '0')));
-      figure.append(slot, text('figcaption', 'DEVELOPMENT PLACEHOLDER / 素材待补充'));
+      figure.append(slot, text('figcaption', UI_TEXT.placeholder));
       grid.append(figure);
     }
     continue;
   }
-  for (const work of works) {
+  for (const item of works) {
+    const work = { ...item };
+    for (const field of ['title', 'category', 'period', 'year', 'alt', 'material', 'duration']) work[field] = localized(item[field]);
     const figure = document.createElement('figure');
     const button = document.createElement('button');
     button.className = 'gallery-open';
     button.type = 'button';
-    button.setAttribute('aria-label', `プレビュー / 预览 — ${work.title || work.category || ''}`);
+    button.setAttribute('aria-label', `${UI_TEXT.preview} — ${work.title || work.category || ''}`);
     const image = document.createElement('img');
     image.loading = 'lazy';
     image.decoding = 'async';
-    image.alt = work.alt || work.title || '作品 / 作品';
-    image.src = work.image;
+    image.alt = work.alt || work.title || UI_TEXT.artwork;
+    image.src = workImageURL(work.image);
     image.addEventListener('error', () => {
-      button.replaceWith(text('div', 'IMAGE UNAVAILABLE / 图片无法加载', 'image-error'));
+      button.replaceWith(text('div', UI_TEXT.imageError, 'image-error'));
     }, { once: true });
     button.append(image);
     button.addEventListener('click', () => openPreview(button, work));
@@ -112,7 +114,7 @@ function initXPost() {
   status.textContent = 'X POST / LOADING';
   const failure = () => {
     status.hidden = false;
-    status.textContent = '投稿を読み込めません。X でご覧ください。 / 暂时无法加载，请前往 X 查看。';
+    status.textContent = UI_TEXT.xError;
   };
   const timer = setTimeout(failure, 12000);
   const script = document.createElement('script');
