@@ -1,17 +1,18 @@
 "use strict";
+const SITE_ROOT = new URL("./", document.currentScript.src);
 const SITE_LANGUAGE = document.documentElement.lang === 'ja' ? 'jp' : 'ch';
 // Register a detail page only after its HTML exists. Missing translations use home.
 // Example: 'works/exam-color-01.html': { ch: '/ch/works/exam-color-01.html', jp: '/jp/works/exam-color-01.html' }
 const LANGUAGE_PAGES = { '': { ch: '/ch/', jp: '/jp/' } };
 const UI_TEXT = {
-  ch: { placeholder: 'DEVELOPMENT PLACEHOLDER / 素材待补充', preview: '预览', artwork: '作品', imageError: 'IMAGE UNAVAILABLE / 图片无法加载', xError: '暂时无法加载，请前往 X 查看。' },
-  jp: { placeholder: 'DEVELOPMENT PLACEHOLDER / 作品準備中', preview: 'プレビュー', artwork: '作品', imageError: 'IMAGE UNAVAILABLE / 画像を読み込めません', xError: '投稿を読み込めません。X でご覧ください。' }
+  ch: { placeholder: 'DEVELOPMENT PLACEHOLDER / 素材待补充', preview: '预览', artwork: '作品', imageError: 'IMAGE UNAVAILABLE / 图片无法加载', xError: '暂时无法加载，请前往 X 查看' },
+  jp: { placeholder: 'DEVELOPMENT PLACEHOLDER / 作品準備中', preview: 'プレビュー', artwork: '作品', imageError: 'IMAGE UNAVAILABLE / 画像を読み込めません', xError: '投稿を読み込めません X でご覧ください' }
 }[SITE_LANGUAGE];
 // Optional localized metadata: title: { ch: '中文标题', jp: '日本語タイトル' }.
 function localized(value) { return value && typeof value === 'object' ? (value[SITE_LANGUAGE] || '') : value; }
-function workImageURL(image) { return new URL(image, location.origin + '/').href; }
+function workImageURL(image) { return new URL(image.replace(/^\//, ''), SITE_ROOT).href; }
 function updateLanguageLinks() {
-  const key = location.pathname.replace(/^\/(ch|jp)\//, '').replace(/^index\.html$/, '');
+  const key = location.pathname.slice(SITE_ROOT.pathname.length).replace(/^(ch|jp)\//, '').replace(/^index\.html$/, '');
   let hash = location.hash;
   if (!hash && !key) {
     const sections = [...document.querySelectorAll('main > section[id], main > footer[id]')];
@@ -21,7 +22,7 @@ function updateLanguageLinks() {
   for (const link of document.querySelectorAll('[data-language]')) {
     const target = link.dataset.language;
     const page = LANGUAGE_PAGES[key]?.[target];
-    link.href = (page || LANGUAGE_PAGES[''][target]) + location.search + (page ? hash : '');
+    link.href = new URL((page || LANGUAGE_PAGES[''][target]).replace(/^\//, ''), SITE_ROOT).href + location.search + (page ? hash : '');
   }
 }
 updateLanguageLinks();

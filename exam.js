@@ -14,7 +14,7 @@ function openPreview(button, work) {
   lastTrigger = button;
   previewImage.src = workImageURL(work.image);
   previewImage.alt = work.alt || work.title || UI_TEXT.artwork;
-  previewCaption.textContent = [work.title, work.category, work.period, work.year, work.material, work.duration].filter(Boolean).join('\n');
+  previewCaption.textContent = [work.title, work.category, work.period, work.year, work.material, work.duration, work.theme ? `${SITE_LANGUAGE === 'ch' ? '题目' : 'テーマ'}：${work.theme}` : '', work.description ? '\n' + work.description : ''].filter(Boolean).join('\n');
   preview.inert = false;
   preview.setAttribute('aria-hidden', 'false');
   document.body.classList.add('preview-active');
@@ -65,7 +65,7 @@ for (const grid of document.querySelectorAll('[data-works]')) {
   }
   for (const item of works) {
     const work = { ...item };
-    for (const field of ['title', 'category', 'period', 'year', 'alt', 'material', 'duration']) work[field] = localized(item[field]);
+    for (const field of ['title', 'category', 'period', 'year', 'alt', 'material', 'duration', 'theme', 'description']) work[field] = localized(item[field]);
     const figure = document.createElement('figure');
     const button = document.createElement('button');
     button.className = 'gallery-open';
@@ -123,7 +123,7 @@ function initXPost() {
   script.addEventListener('error', () => { clearTimeout(timer); failure(); });
   script.addEventListener('load', async () => {
     try {
-      const widget = await window.twttr.widgets.createTweet(id, document.querySelector('#x-embed'), { dnt: true, align: 'center' });
+      const widget = await window.twttr.widgets.createTweet(id, document.querySelector('#x-embed'), { dnt: true, align: 'center', theme: 'dark' });
       clearTimeout(timer);
       if (widget) status.hidden = true;
       else failure();
